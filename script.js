@@ -10,9 +10,9 @@ function formatearFecha(fechaISO) {
   const [year, month, day] = fechaISO.split("-")
   return `${day}/${month}/${year}`
 }
-// ============================================
+
 // FUNCIONES PARA LOTES
-// ============================================
+
 
 function agregarLote() {
   const container = document.getElementById("lotesContainer")
@@ -126,9 +126,8 @@ function eliminarLote(loteIndex) {
   }
 }
 
-// ============================================
 // FUNCIONES PARA PRODUCTOS
-// ============================================
+
 
 function agregarProducto(loteIndex) {
   const loteSection = document.querySelector(`[data-lote-index="${loteIndex}"]`)
@@ -157,9 +156,8 @@ function eliminarProducto(btn, loteIndex) {
   actualizarCalculosLote(loteIndex)
 }
 
-// ============================================
 // FUNCIÓN PARA ACTUALIZAR CÁLCULOS POR LOTE
-// ============================================
+
 
 function actualizarCalculosLote(loteIndex) {
   const loteSection = document.querySelector(`[data-lote-index="${loteIndex}"]`)
@@ -197,9 +195,9 @@ function actualizarCalculosLote(loteIndex) {
   totalUsdHaCell.textContent = `$${totalUsdHa.toFixed(2)}`
 }
 
-// ============================================
+
 // FUNCIÓN PARA RECOPILAR DATOS
-// ============================================
+
 
 function recopilarLotes() {
   const loteSections = document.querySelectorAll(".lote-section")
@@ -262,9 +260,8 @@ function recopilarLotes() {
   return lotesData
 }
 
-// ============================================
 // FUNCIÓN PARA GENERAR PDF
-// ============================================
+
 
 async function generarPDF() {
   // Validar formulario
@@ -510,9 +507,8 @@ async function generarPDF() {
   // alert("PDF generado exitosamente")
 }
 
-// ============================================
 // INICIALIZACIÓN
-// ============================================
+
 
 window.addEventListener("DOMContentLoaded", () => {
   agregarLote()

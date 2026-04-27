@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Órdenes de Trabajo Agronómicas</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #015b04;
+  --color-secondary: #58c202;
+  --color-accent: #08a933;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #000000;
+  --color-text-secondary: #070707;
+  --color-border: #08a933;
+  --color-hover: #06c100;
+  --color-danger: #c44536;
+  --shadow-sm: 0 1px 3px rgba(139, 69, 19, 0.1);
+  --shadow-md: 0 4px 6px rgba(139, 69, 19, 0.15);
+  --radius: 8px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+  padding: 1rem;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem 1rem;
+  background: #58c202;
+  border-radius: var(--radius);
+  color: white;
+}
+
+.header h1 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: clamp(0.875rem, 2vw, 1.125rem);
+  opacity: 0.95;
+}
+
+.form {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: clamp(1rem, 3vw, 2rem);
+  box-shadow: var(--shadow-md);
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: all 0.2s;
+  background: var(--color-surface);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+}
+
+.table thead {
+  background: var(--color-primary);
+  color: white;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid var(--color-border);
+}
+
+.table th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(139, 69, 19, 0.05);
+}
+
+.table input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+
+
+.table input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.table-compact th,
+.table-compact td {
+  padding: 0.5rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--color-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background: var(--color-secondary);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: var(--color-hover);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.btn-danger:hover {
+  background: #a03528;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+/* Hace que la tabla no use el layout tradicional */
+#operacionesTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#operacionesTable thead {
+  display: none; /* Oculta encabezados si querés más estilo de formulario */
+}
+
+/* Cada fila se convierte en una grilla */
+#operacionesTable tbody tr {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+  gap: 20px;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Cada celda se comporta como bloque */
+#operacionesTable tbody td {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilo general para inputs */
+#operacionesTable input,
+#operacionesTable select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* Botón eliminar alineado */
+#operacionesTable .btn-danger {
+  margin-top: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  background: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#operacionesTable .btn-danger:hover {
+  background: #c9302c;
+}
+
+/* Responsive: en móvil se vuelve 1 input por fila */
+@media (max-width: 768px) {
+  #operacionesTable tbody tr {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  .header {
+    padding: 1.5rem 1rem;
+  }
+
+  .form {
+    padding: 1rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .table {
+    font-size: 0.75rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.5rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .table th,
+  .table td {
+    padding: 0.375rem;
+    font-size: 0.7rem;
+  }
+
+  .table input {
+    padding: 0.375rem;
+    font-size: 0.75rem;
+  }
+}
+
+</style>
+<body>
+<nav class="navbar navbar-light bg-light mb-2">
+  <div class="container-fluid">
+    <a href="index.html" class="btn btn-outline-success">
+      ← Volver
+    </a>
+  </div>
+</nav>
+    <div class="container">
+        <header class="header">
+            <h1>Reportes Órdenes de Trabajo Agronómicas</h1>
+            <p class="subtitle">Gestión de laboreos</p>
+        </header>
+        <form id="ordenForm" class="form"> 
+            <section class="section">
+                <h2 class="section-title">Información General</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="numeroOrden">Número de Orden</label>
+                        <input type="text" id="numeroOrden" placeholder="Ej: OT-2025-001" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="establecimiento">Establecimiento</label>
+                        <input type="text" id="establecimiento" placeholder="Nombre del establecimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contratista">Contratista</label>
+                        <input type="text" id="contratista" placeholder="Nombre del contratista" required>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="valorUsdHa">Valor USD/Ha</label>
+                        <input type="number" id="valorUsdHa" step="0.01" placeholder="0.00" required>
+                    </div> -->
+                </div>
+            </section>
+            <!-- <section class="section">
+                <h2 class="section-title">Condiciones de Labor</h2>
+                <div class="table-responsive">
+                    <table class="table table-compact">
+                        <thead>
+                            <tr>
+                                <th>Parámetro</th>
+                                <th>Mínimo</th>
+                                <th>Máximo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Humedad (%)</td>
+                                <td><input type="number" id="humedadMin" step="0.1" placeholder="0"></td>
+                                <td><input type="number" id="humedadMax" step="0.1" placeholder="100"></td>
+                            </tr>
+                            <tr>
+                                <td>Temperatura (°C)</td>
+                                <td><input type="number" id="temperaturaMin" step="0.1" placeholder="0"></td>
+                                <td><input type="number" id="temperaturaMax" step="0.1" placeholder="40"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section> -->
+            <!-- <section class="section">
+                <h2 class="section-title">Condición de Maquinaria</h2>
+                <div class="table-responsive">
+                    <table class="table table-compact">
+                        <thead>
+                            <tr>
+                                <th>Vol. Caldo (L/ha)</th>
+                                <th>Presión (bar)</th>
+                                <th>Pastillas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="number" id="volCaldo" step="0.1" placeholder="100"></td>
+                                <td><input type="number" id="presion" step="0.1" placeholder="3.0"></td>
+                                <td><input type="text" id="pastillas" placeholder="Tipo de pastillas"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section> -->
+            <section class="section">
+                <h2 class="section-title">Operaciones</h2>
+                <div class="table-responsive">
+                    <table class="table" id="operacionesTable">
+                        <thead>
+                            <tr>
+                                <!-- <th>Hora</th> -->
+                                <th>Fecha</th>
+                                <th>Cultivo</th>
+                                <th>Lote</th>
+                                <th>Superficie (ha)</th>
+                                <th>Labor/Producto</th>
+                                <th>Unidad</th>
+                                <th>Dosis Técnico</th>
+                                <th>Dosis Real</th>
+                                <th>Cantidad Total</th>
+                                <th>Operario/Maquinaria</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="operacionesBody"> 
+                        </tbody>
+                    </table>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="agregarOperacion()">
+                    Agregar Operación
+                </button>
+            </section> 
+            <section class="section">
+                <h2 class="section-title">Información Adicional</h2>
+                <div class="form-group">
+                    <label for="infoAdicional">Observaciones y notas</label>
+                    <textarea id="infoAdicional" rows="4" placeholder="Ingrese información adicional sobre la orden de trabajo..."></textarea>
+                </div>
+            </section>
+            <div class="actions">
+                <button type="button" class="btn btn-primary" onclick="generarPDF()">
+                    Generar PDF
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+// Agregar primera operación al cargar
+document.addEventListener("DOMContentLoaded", () => {
+  agregarOperacion()
+})
+
+function agregarOperacion() {
+  const tbody = document.getElementById("operacionesBody")
+  const row = tbody.insertRow()
+
+  row.innerHTML = `
+        
+        <td><input type="date" class="fecha-input" required placeholder="Fecha"></td>
+        <td><input type="text" class="cultivo-input" placeholder="Cultivo"></td>
+        <td><input type="text"class="lote-input" placeholder="Lote"></td>
+        <td><input type="number" class="superficie-input" step="0.01" placeholder="Hectáreas" oninput="calcularCantidadTotal(this)"></td>
+        <td><input type="text" class="labor-input" placeholder="Labor/Producto"></td>
+        <td>
+            <select class="unidad-input">
+                <option value="L">L</option>
+                <option value="Kg">Kg</option>
+                <option value="gr">gr</option>
+                <option value="Ml">Ml</option>
+                <option value="Pl">Pl</option>
+            </select>
+        </td>
+        <td><input type="number" class="dosis-tecnico-input" step="0.01" placeholder="Dosis Técnica"></td>
+        <td><input type="number" class="dosis-real-input" step="0.01" placeholder="Dosis Real" oninput="calcularCantidadTotal(this)"></td>
+        <td><input type="number" class="cantidad-total-input" step="0.01" placeholder="Cantidad Total" readonly style="background: #f5f5f5;"></td>
+        <td><input type="text" class="operario-input" placeholder="Operario/Máquina"></td>
+        <td><button type="button" class="btn btn-danger" onclick="eliminarOperacion(this)">Eliminar</button></td>
+    `
+}
+
+function calcularCantidadTotal(input) {
+  const row = input.closest("tr")
+  const superficie = Number.parseFloat(row.querySelector(".superficie-input").value) || 0
+  const dosisReal = Number.parseFloat(row.querySelector(".dosis-real-input").value) || 0
+  const cantidadTotal = superficie * dosisReal
+
+  row.querySelector(".cantidad-total-input").value = cantidadTotal.toFixed(2)
+}
+
+function eliminarOperacion(btn) {
+  const row = btn.closest("tr")
+  row.remove()
+}
+
+function formatearFecha(fechaISO) {
+  if (!fechaISO) return ""
+  const [year, month, day] = fechaISO.split("-")
+  return `${day}/${month}/${year}`
+}
+
+function generarPDF() {
+  const { jsPDF } = window.jspdf
+  const doc = new jsPDF("l", "mm", "a4") 
+
+  const pageWidth = doc.internal.pageSize.getWidth()
+  const margin = 10
+  let yPos = margin
+
+  
+  doc.setTextColor(0, 0, 0)
+  doc.setFontSize(14)
+  doc.setFont(undefined, "bold")
+  doc.text("ORDEN DE TRABAJO", margin, yPos)
+  yPos += 8
+
+  
+  doc.setFontSize(10)
+  doc.setFont(undefined, "normal")
+  const numeroOrden = document.getElementById("numeroOrden").value
+  const establecimiento = document.getElementById("establecimiento").value
+  const contratista = document.getElementById("contratista").value
+
+  doc.text(`Orden: ${numeroOrden}`, margin, yPos)
+  doc.text(`Establecimiento: ${establecimiento}`, margin + 80, yPos)
+  doc.text(`Contratista: ${contratista}`, margin + 180, yPos)
+  yPos += 10
+
+  
+  const operaciones = []
+  const rows = document.querySelectorAll("#operacionesBody tr")
+
+  rows.forEach((row) => {
+    // const hora = row.querySelector(".hora-input").value
+    const fecha = row.querySelector(".fecha-input").value
+    const cultivo = row.querySelector(".cultivo-input").value
+    const lote = row.querySelector(".lote-input").value
+    const superficie = row.querySelector(".superficie-input").value
+    const labor = row.querySelector(".labor-input").value
+    const unidad = row.querySelector(".unidad-input").value
+    const dosisTecnico = row.querySelector(".dosis-tecnico-input").value
+    const dosisReal = row.querySelector(".dosis-real-input").value
+    const cantidadTotal = row.querySelector(".cantidad-total-input").value
+    const operario = row.querySelector(".operario-input").value
+
+    const fechaFormateada = formatearFecha(fecha)
+
+    operaciones.push([
+      // hora,
+      fechaFormateada,
+      cultivo,
+      lote,
+      superficie,
+      labor,
+      unidad,
+      dosisTecnico,
+      dosisReal,
+      cantidadTotal,
+      operario,
+    ])
+  })
+
+  
+  doc.autoTable({
+    startY: yPos,
+    head: [
+      [
+        // "Hora",
+        "Fecha",
+        "Cultivo",
+        "Lote",
+        "Superficie (ha)",
+        "Labor/Producto",
+        "Unidad",
+        "Dosis Técnica",
+        "Dosis Real",
+        "Cantidad Total",
+        "Operario/Maquinaria",
+      ],
+    ],
+    body: operaciones,
+    theme: "grid",
+    headStyles: {
+      fillColor: [255, 255, 255],
+      textColor: [0, 0, 0],
+      fontSize: 9,
+      fontStyle: "bold",
+      lineWidth: 0.5,
+      lineColor: [0, 0, 0],
+    },
+    bodyStyles: {
+      fontSize: 9,
+      lineWidth: 0.5,
+      lineColor: [0, 0, 0],
+    },
+    margin: { left: margin, right: margin },
+    styles: {
+      cellPadding: 3,
+      overflow: "linebreak",
+    },
+  })
+
+  yPos = doc.lastAutoTable.finalY + 10
+
+  
+  // const humedadMin = document.getElementById("humedadMin").value
+  // const humedadMax = document.getElementById("humedadMax").value
+  // const temperaturaMin = document.getElementById("temperaturaMin").value
+  // const temperaturaMax = document.getElementById("temperaturaMax").value
+  // const volCaldo = document.getElementById("volCaldo").value
+  // const presion = document.getElementById("presion").value
+  // const pastillas = document.getElementById("pastillas").value
+
+  if (yPos > 170) {
+    doc.addPage()
+    yPos = margin
+  }
+
+  doc.setFontSize(10)
+  doc.setFont(undefined, "bold")
+//   doc.text("Condiciones:", margin, yPos)
+  yPos += 6
+
+  // doc.setFont(undefined, "normal")
+  // doc.text(`Humedad: ${humedadMin}% - ${humedadMax}%`, margin, yPos)
+  // doc.text(`Temperatura: ${temperaturaMin}°C - ${temperaturaMax}°C`, margin + 60, yPos)
+  yPos += 6
+  // doc.text(`Vol. Caldo: ${volCaldo} L/ha`, margin, yPos)
+  // doc.text(`Presión: ${presion} bar`, margin + 60, yPos)
+  // doc.text(`Pastillas: ${pastillas}`, margin + 110, yPos)
+  yPos += 10
+
+  
+  const infoAdicional = document.getElementById("infoAdicional").value
+  if (infoAdicional) {
+    if (yPos > 170) {
+      doc.addPage()
+      yPos = margin
+    }
+
+    doc.setFont(undefined, "bold")
+    doc.text("Observaciones:", margin, yPos)
+    yPos += 6
+
+    // doc.setFont(undefined, "normal")
+    // const splitText = doc.splitTextToSize(infoAdicional, pageWidth - 2 * margin)
+    // doc.text(splitText, margin, yPos)
+    doc.setFont(undefined, "normal");
+
+  const texto = infoAdicional; 
+  const splitText = doc.splitTextToSize(texto, pageWidth - 2 * margin);
+
+  // Obtener altura del bloque
+  const lineHeight = 6;
+  const blockHeight = splitText.length * lineHeight;
+
+  // Dibujar rectángulo de fondo
+  doc.setFillColor(255, 255, 0); // amarillo
+  doc.rect(margin - 2, yPos - 4, pageWidth - 2 * margin + 4, blockHeight + 6, "F");
+
+
+  // Escribir el texto encima del rectángulo
+  doc.setTextColor(0, 0, 0); 
+  doc.text(splitText, margin, yPos);
+
+  // Actualizar posición
+  yPos += blockHeight + 4;
+
+  }
+
+  // Save PDF
+  doc.save(`Orden_Trabajo_${numeroOrden}.pdf`)
+}
+</script>

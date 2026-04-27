@@ -1,52 +1,36 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agro Informes</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="container">
-    <h1>Informe de Monitoreo de Cultivos</h1>
-
-    <form id="reporteForm">
-      <!-- Información General -->
-      <section class="form-section">
-        <h2>Informacion General</h2>
-        
-        <div class="form-group">
-          <label for="fecha">Fecha de recorrida:</label>
-          <input type="date" id="fecha" required>
+<!DOCTYPE html> <html lang="es">
+   <head> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <style> .card-module { cursor: pointer; transition: 0.3s; border: none; border-radius: 20px; text-align: center; padding: 40px; } 
+    .card-module:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); } 
+    .icon-box { font-size: 50px; margin-bottom: 20px; } 
+    </style> 
+  </head>
+  <body class="bg-light"> 
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+  <img src="img/logo.png" alt="Logo" style="height:80px; margin-right:20px;">
+  <span class="fw-bold">ReportyApp</span>
+</a>
+    <div class="container mt-5"> 
+      <h2 class="mb-5"><strong>¡Bienvenido!</strong></h2> 
+      <div class="row"> <div class="col-md-6 mb-4">
+         <a href="generar-reporte-agricultura.html" class="text-decoration-none text-dark"> 
+          <div class="card card-module shadow-sm border-start border-success border-5"> 
+            <div class="icon-box">🌱</div> 
+            <h3>Generar Reporte Agricultura</h3> 
+            <p class="text-muted">Asesoramiento para la producción agrícola, cálculos de insumos por lote.</p> 
+          </div> 
+        </a> 
+      </div> 
+        <div class="col-md-6 mb-4">
+          <a href="generar-orden-de-trabajo.html" class="text-decoration-none text-dark"> 
+          <div class="card card-module shadow-sm border-start border-primary border-5"> 
+            <div class="icon-box">🚜</div>
+              <h3>Generar Órdenes de Trabajo</h3> 
+            <p class="text-muted">Generar órden de laboreos por lote.</p> 
+          </div> 
         </div>
-
-        <div class="form-group">
-          <label for="establecimiento">Establecimiento:</label>
-          <input type="text" id="establecimiento" required>
-        </div>
-      </section>
-
-      <!-- Lotes -->
-      <section class="form-section">
-        <h2>Lotes</h2>
-        <div id="lotesContainer"></div>
-        <button type="button" class="btn-add" onclick="agregarLote()">Agregar Lote</button>
-
-        <div class="form-group">
-          <label for="observacionesLote">Otras Observaciones de Lotes:</label>
-          <textarea id="observacionesLote" rows="3"></textarea>
-        </div>
-      </section>
-
-      <!-- Botón Generar PDF -->
-      <div class="form-actions">
-        <button type="button" class="btn-generate" onclick="generarPDF()">Generar PDF</button>
       </div>
-    </form>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-  <script src="script.js"></script>
-</body>
+    </div> 
+  </body>
 </html>
