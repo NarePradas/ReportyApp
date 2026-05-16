@@ -1,36 +1,297 @@
-<!DOCTYPE html> <html lang="es">
-   <head> 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> 
-    <style> .card-module { cursor: pointer; transition: 0.3s; border: none; border-radius: 20px; text-align: center; padding: 40px; } 
-    .card-module:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); } 
-    .icon-box { font-size: 50px; margin-bottom: 20px; } 
-    </style> 
-  </head>
-  <body class="bg-light"> 
-    <a class="navbar-brand d-flex align-items-center" href="index.html">
-  <img src="img/logo.png" alt="Logo" style="height:80px; margin-right:20px;">
-  <span class="fw-bold">ReportyApp</span>
-</a>
-    <div class="container mt-5"> 
-      <h2 class="mb-5"><strong>¡Bienvenido!</strong></h2> 
-      <div class="row"> <div class="col-md-6 mb-4">
-         <a href="generar-reporte-agricultura.html" class="text-decoration-none text-dark"> 
-          <div class="card card-module shadow-sm border-start border-success border-5"> 
-            <div class="icon-box">🌱</div> 
-            <h3>Generar Reporte Agricultura</h3> 
-            <p class="text-muted">Asesoramiento para la producción agrícola, cálculos de insumos por lote.</p> 
-          </div> 
-        </a> 
-      </div> 
-        <div class="col-md-6 mb-4">
-          <a href="generar-orden-de-trabajo.html" class="text-decoration-none text-dark"> 
-          <div class="card card-module shadow-sm border-start border-primary border-5"> 
-            <div class="icon-box">🚜</div>
-              <h3>Generar Órdenes de Trabajo</h3> 
-            <p class="text-muted">Generar órden de laboreos por lote.</p> 
-          </div> 
-        </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReportyApp</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+  <style>
+    body {
+      background: #000000;
+      background-image:
+        radial-gradient(ellipse at top left, rgba(27, 80, 10, 0.55) 0%, transparent 55%),
+        radial-gradient(ellipse at bottom right, rgba(12, 68, 124, 0.5) 0%, transparent 55%),
+        radial-gradient(ellipse at center, rgba(5, 18, 5, 0.9) 0%, #000000 100%);
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    /* Navbar */
+    .rapp-navbar {
+      background: rgba(10, 20, 10, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(100, 200, 80, 0.12);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .rapp-logo-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #3B6D11;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .rapp-logo-circle i {
+      color: #C0DD97;
+      font-size: 20px;
+    }
+    .rapp-brand {
+      font-size: 15px;
+      font-weight: 500;
+      color: #e8f5e2;
+    }
+    .rapp-brand span {
+      color: #7aab5a;
+      font-weight: 400;
+    }
+    .rapp-nav-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .rapp-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Greeting */
+    .rapp-greeting {
+      padding: 32px 24px 8px;
+    }
+    .date-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(100,200,80,0.2);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: #7aab5a;
+      margin-bottom: 12px;
+    }
+    .rapp-greeting h2 {
+      font-size: 22px;
+      font-weight: 500;
+      color: #e8f5e2;
+      margin: 0 0 4px;
+    }
+    .rapp-greeting p {
+      font-size: 14px;
+      color: #7aab5a;
+      margin: 0;
+    }
+
+    /* Stat cards */
+    .rapp-stats {
+      padding: 16px 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+    .rapp-stat {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(100,200,80,0.1);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: #7aab5a;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .stat-val {
+      font-size: 20px;
+      font-weight: 500;
+      color: #e8f5e2;
+    }
+    .stat-sub {
+      font-size: 11px;
+      color: #4d7a35;
+      margin-top: 2px;
+    }
+
+    /* Module cards */
+    .rapp-cards {
+      padding: 8px 24px 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .rapp-card {
+      background: rgba(10, 22, 10, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(100,200,80,0.15);
+      border-radius: 12px;
+      padding: 24px;
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+      position: relative;
+      overflow: hidden;
+      color: inherit;
+    }
+    .rapp-card:hover {
+      border-color: rgba(100,200,80,0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      color: inherit;
+      text-decoration: none;
+    }
+    .rapp-card-accent {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 12px 12px 0 0;
+    }
+    .accent-green { background: linear-gradient(90deg, #639922, #3B6D11); }
+    .accent-blue  { background: linear-gradient(90deg, #378ADD, #185FA5); }
+
+    .rapp-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 22px;
+    }
+    .icon-green { background: rgba(99,153,34,0.18); color: #97C459; }
+    .icon-blue  { background: rgba(55,138,221,0.18); color: #85B7EB; }
+
+    .rapp-card h3 {
+      font-size: 16px;
+      font-weight: 500;
+      color: #e8f5e2;
+      margin: 0 0 6px;
+    }
+    .rapp-card p {
+      font-size: 13px;
+      color: #7aab5a;
+      margin: 0 0 20px;
+      line-height: 1.6;
+    }
+    .rapp-card-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 8px;
+      padding: 6px 14px;
+      border: 1px solid;
+      transition: background 0.15s;
+      text-decoration: none;
+    }
+    .action-green {
+      color: #97C459;
+      border-color: rgba(99,153,34,0.4);
+      background: rgba(99,153,34,0.12);
+    }
+    .action-green:hover { background: rgba(99,153,34,0.25); color: #C0DD97; }
+    .action-blue {
+      color: #85B7EB;
+      border-color: rgba(55,138,221,0.4);
+      background: rgba(55,138,221,0.12);
+    }
+    .action-blue:hover { background: rgba(55,138,221,0.25); color: #B5D4F4; }
+  </style>
+</head>
+<body>
+
+  <nav class="rapp-navbar">
+    <div class="rapp-logo-circle">
+      <i class="ti ti-plant"></i>
+    </div>
+    <div class="rapp-brand">
+      ReportyApp <span>· Campo</span>
+    </div>
+    <div class="rapp-nav-actions">
+      <i class="ti ti-bell" style="font-size:18px; color:#7aab5a;"></i>
+      <div class="rapp-avatar">
+        <i class="ti ti-user" style="font-size:16px; color:#7aab5a;"></i>
       </div>
-    </div> 
-  </body>
+    </div>
+  </nav>
+
+  <div class="rapp-greeting">
+    <div class="date-badge">
+      <i class="ti ti-calendar" style="font-size:13px;"></i>
+      Campaña 26
+    </div>
+    <h2>¡Bienvenido de nuevo!</h2>
+    <p>¿Qué necesitás gestionar hoy?</p>
+  </div>
+
+  <!-- <div class="rapp-stats">
+    <div class="rapp-stat">
+      <div class="stat-label">Lotes activos</div>
+      <div class="stat-val">12</div>
+      <div class="stat-sub">Esta campaña</div>
+    </div>
+    <div class="rapp-stat">
+      <div class="stat-label">Reportes</div>
+      <div class="stat-val">7</div>
+      <div class="stat-sub">Últimos 30 días</div>
+    </div>
+    <div class="rapp-stat">
+      <div class="stat-label">Órdenes</div>
+      <div class="stat-val">3</div>
+      <div class="stat-sub">Pendientes</div>
+    </div>
+  </div> -->
+
+  <div class="rapp-cards">
+    <a href="generar-reporte-agricultura.html" class="rapp-card">
+      <div class="rapp-card-accent accent-green"></div>
+      <div class="rapp-card-icon icon-green">
+        <i class="ti ti-seeding"></i>
+      </div>
+      <h3>Generar reporte de agricultura</h3>
+      <p>Asesoramiento para la producción agrícola y cálculo de insumos por lote.</p>
+      <span class="rapp-card-action action-green">
+        Nuevo reporte <i class="ti ti-arrow-right" style="font-size:13px;"></i>
+      </span>
+    </a>
+
+    <a href="generar-orden-de-trabajo.html" class="rapp-card">
+      <div class="rapp-card-accent accent-blue"></div>
+      <div class="rapp-card-icon icon-blue">
+        <i class="ti ti-tractor"></i>
+      </div>
+      <h3>Generar órdenes de trabajo</h3>
+      <p>Creá y asigná órdenes de laboreo por lote para el equipo de campo.</p>
+      <span class="rapp-card-action action-blue">
+        Nueva orden <i class="ti ti-arrow-right" style="font-size:13px;"></i>
+      </span>
+    </a>
+  </div>
+  <footer class="text-light py-4 mt-auto">
+  <div class="container text-center">
+    <p class="mb-0">
+      © 2026 Sitio Web Desarrollado por Upya Digital.
+    </p>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
