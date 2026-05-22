@@ -397,7 +397,7 @@
           </div>
           <div class="form-group">
             <label>Hectáreas</label>
-            <input type="number" class="lote-hectareas" placeholder="0.00" min="0" step="0.01" required onchange="actualizarCalculosLote(${loteIndex})">
+            <input type="text" class="lote-hectareas" placeholder="0.00" min="0" step="0.01" required onchange="actualizarCalculosLote(${loteIndex})">
           </div>
           <div class="form-group">
             <label>Cultivo antecesor</label>
@@ -490,14 +490,14 @@
       const row = document.createElement("tr")
       row.innerHTML = `
         <td><input type="text" class="prod-nombre" placeholder="Ej: Glifosato" required></td>
-        <td><input type="number" class="prod-dosis-hectarea" placeholder="0.00" min="0" step="0.01" required onchange="actualizarCalculosLote(${loteIndex})"></td>
+        <td><input type="text" class="prod-dosis-hectarea" placeholder="0.00" min="0" step="0.01" required onchange="actualizarCalculosLote(${loteIndex})"></td>
         <td>
           <select class="prod-unidad" required>
             <option value="L/ha">L/ha</option>
             <option value="kg/ha">kg/ha</option>
           </select>
         </td>
-        <td><input type="number" class="prod-precio-usd" placeholder="0.00" min="0" step="0.01" required onchange="actualizarCalculosLote(${loteIndex})"></td>
+        <td><input type="text" class="prod-precio-usd" placeholder="0.00" min="0" step="0.01" required onchange="actualizarCalculosLote(${loteIndex})"></td>
         <td class="prod-usd-ha-display">$0.00</td>
         <td class="prod-cantidad-total-display">0.00 L</td>
         <td><button type="button" class="btn-delete-small" onclick="eliminarProducto(this, ${loteIndex})">Eliminar</button></td>
